@@ -1,0 +1,301 @@
+{
+  "name": "zovo-mcap-viewer",
+  "displayName": "MCAP Viewer & ROS Bag Viewer",
+  "description": "MCAP viewer for VS Code: open .mcap and ROS 1 .bag files to see topics, message types, counts, rates, the time range, schemas and chunk compression, read decoded messages (ROS 1, ROS 2 CDR, JSON, protobuf) and plot a field over time. Offline, no account.",
+  "version": "0.1.0",
+  "publisher": "zovo",
+  "license": "MIT",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#16242E",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theluckystrike/mcap-viewer-vscode"
+  },
+  "bugs": {
+    "url": "https://github.com/theluckystrike/mcap-viewer-vscode/issues"
+  },
+  "homepage": "https://github.com/theluckystrike/mcap-viewer-vscode#readme",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Visualization",
+    "Data Science",
+    "Other"
+  ],
+  "keywords": [
+    "mcap",
+    "rosbag",
+    "ros",
+    "ros2",
+    "robotics"
+  ],
+  "main": "./src/extension.js",
+  "activationEvents": [
+    "onUri"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": true
+  },
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "mcapViewer.editor",
+        "displayName": "MCAP Viewer",
+        "selector": [
+          {
+            "filenamePattern": "*.mcap"
+          },
+          {
+            "filenamePattern": "*.bag"
+          }
+        ],
+        "priority": "default"
+      }
+    ],
+    "commands": [
+      {
+        "command": "mcapViewer.openWithViewer",
+        "title": "Open in MCAP Viewer",
+        "category": "MCAP Viewer"
+      },
+      {
+        "command": "mcapViewer.openSample",
+        "title": "Open the Sample Recording (MCAP, ROS 2)",
+        "category": "MCAP Viewer"
+      },
+      {
+        "command": "mcapViewer.openSampleBag",
+        "title": "Open the Sample ROS 1 Bag",
+        "category": "MCAP Viewer"
+      },
+      {
+        "command": "mcapViewer.openWalkthrough",
+        "title": "Get Started",
+        "category": "MCAP Viewer"
+      },
+      {
+        "command": "mcapViewer.moreViewers",
+        "title": "More free tools by Zovo",
+        "category": "MCAP Viewer"
+      },
+      {
+        "command": "mcapViewer.supportDeveloper",
+        "title": "Support the developer",
+        "category": "MCAP Viewer"
+      },
+      {
+        "command": "mcapViewer.exportTopic",
+        "title": "Export a Topic to CSV or JSON (Pro)",
+        "category": "MCAP Viewer",
+        "icon": "$(export)"
+      },
+      {
+        "command": "mcapViewer.trim",
+        "title": "Trim to a New MCAP File (Pro)",
+        "category": "MCAP Viewer",
+        "icon": "$(scissors)"
+      },
+      {
+        "command": "mcapViewer.compare",
+        "title": "Compare Two Recordings (Pro)",
+        "category": "MCAP Viewer",
+        "icon": "$(diff)"
+      },
+      {
+        "command": "mcapViewer.zovoPro.export",
+        "title": "Zovo Pro: Export a topic to CSV or JSON"
+      },
+      {
+        "command": "mcapViewer.zovoPro.trim",
+        "title": "Zovo Pro: Trim to a new MCAP file"
+      },
+      {
+        "command": "mcapViewer.zovoPro.compare",
+        "title": "Zovo Pro: Compare two recordings"
+      },
+      {
+        "command": "mcapViewer.getPro",
+        "title": "Get Zovo Pro (USD 19 once, all Zovo extensions)",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "mcapViewer.payWithPayPal",
+        "title": "Pay for Zovo Pro with PayPal (USD 19, team of 5 USD 59)",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "mcapViewer.unlockWithSponsors",
+        "title": "I already paid: unlock with GitHub Sponsors",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "mcapViewer.enterLicenseKey",
+        "title": "Enter Zovo Pro license key",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "mcapViewer.removeLicense",
+        "title": "Remove Zovo Pro from this editor",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "mcapViewer.payByCard",
+        "title": "Pay for Zovo Pro by card (USD 19)",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "mcapViewer.enterKey",
+        "title": "Enter a key",
+        "category": "Zovo Pro"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "mcapViewer.exportTopic",
+          "when": "activeCustomEditorId == 'mcapViewer.editor' && config.mcapViewer.showProTools",
+          "group": "1_mcap@1"
+        },
+        {
+          "command": "mcapViewer.trim",
+          "when": "activeCustomEditorId == 'mcapViewer.editor' && config.mcapViewer.showProTools",
+          "group": "1_mcap@2"
+        },
+        {
+          "command": "mcapViewer.compare",
+          "when": "activeCustomEditorId == 'mcapViewer.editor' && config.mcapViewer.showProTools",
+          "group": "1_mcap@3"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "mcapViewer.openWithViewer",
+          "when": "resourceFilename =~ /\\.(mcap|bag)$/i && !explorerResourceIsFolder",
+          "group": "navigation@9"
+        },
+        {
+          "command": "mcapViewer.zovoPro.export",
+          "when": "resourceFilename =~ /\\.(mcap|bag)$/i && !explorerResourceIsFolder && config.mcapViewer.showProTools",
+          "group": "zovoPro@1"
+        },
+        {
+          "command": "mcapViewer.zovoPro.trim",
+          "when": "resourceFilename =~ /\\.(mcap|bag)$/i && !explorerResourceIsFolder && config.mcapViewer.showProTools",
+          "group": "zovoPro@2"
+        },
+        {
+          "command": "mcapViewer.zovoPro.compare",
+          "when": "resourceFilename =~ /\\.(mcap|bag)$/i && !explorerResourceIsFolder && config.mcapViewer.showProTools",
+          "group": "zovoPro@3"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "mcapViewer.exportTopic",
+          "when": "config.mcapViewer.showProTools"
+        },
+        {
+          "command": "mcapViewer.trim",
+          "when": "config.mcapViewer.showProTools"
+        },
+        {
+          "command": "mcapViewer.compare",
+          "when": "config.mcapViewer.showProTools"
+        },
+        {
+          "command": "mcapViewer.zovoPro.export",
+          "when": "false"
+        },
+        {
+          "command": "mcapViewer.zovoPro.trim",
+          "when": "false"
+        },
+        {
+          "command": "mcapViewer.zovoPro.compare",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "MCAP Viewer",
+      "properties": {
+        "mcapViewer.showProTools": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the Zovo Pro tools (export a topic, trim, compare two recordings) in the Command Palette, the Explorer menu and the viewer toolbar. Everything free stays visible."
+        },
+        "mcapViewer.askForRating": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ask once for a Marketplace rating after recordings opened without an error on two occasions at least 30 minutes apart. \"Later\" asks one more time after 7 days, \"No thanks\" never asks again. Nothing is sent anywhere."
+        },
+        "mcapViewer.showSupportLinks": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the small Rate, More free viewers, Zovo Pro and PayPal links at the bottom of the viewer. Nothing is sent anywhere."
+        },
+        "zovo.mcap.trial.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the 7-day Zovo Pro trial button in the Pro panel."
+        }
+      }
+    },
+    "walkthroughs": [
+      {
+        "id": "mcapViewer.start",
+        "title": "Get started with the MCAP Viewer",
+        "description": "Read MCAP recordings and ROS 1 bags in VS Code: topics, decoded messages and plots.",
+        "steps": [
+          {
+            "id": "open",
+            "title": "Open a .mcap or .bag file",
+            "description": "Click a recording in the Explorer. It opens with its topics, message types, counts and rates, the time range, the schemas and the chunk compression.\n[Open the sample recording](command:mcapViewer.openSample)",
+            "media": {
+              "image": "images/screenshot.png",
+              "altText": "A ROS 2 MCAP recording open in VS Code: the topic list, decoded IMU messages and a plot of one field over time."
+            },
+            "completionEvents": [
+              "onCommand:mcapViewer.openSample"
+            ]
+          },
+          {
+            "id": "messages",
+            "title": "Messages, seek and plot",
+            "description": "Pick a topic to read its messages with every field decoded. Drag the time slider to jump to a moment, and pick a number field to plot it over the whole recording.\n[Open the sample ROS 1 bag](command:mcapViewer.openSampleBag)",
+            "media": {
+              "markdown": "walkthrough/messages.md"
+            },
+            "completionEvents": [
+              "onCommand:mcapViewer.openSampleBag"
+            ]
+          },
+          {
+            "id": "zovo-related",
+            "title": "Tools that often go with recordings",
+            "description": "These free Zovo extensions open other data files of a robotics project. A link opens the extension page, and you choose there whether to install it.\n[SQLite Viewer](command:extension.open?%5B%22zovo.sqlite-table-viewer%22%5D)\n[Parquet Viewer](command:extension.open?%5B%22zovo.zovo-parquet-viewer%22%5D)\n[HDF5 and NetCDF Viewer](command:extension.open?%5B%22zovo.hdf5-netcdf-explorer%22%5D)",
+            "media": {
+              "markdown": "walkthrough/related.md"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "test": "node scripts/test.js",
+    "vendor": "cd scripts/vendor && npm install && node ../build-vendor.js",
+    "samples": "node scripts/make-samples.js",
+    "package": "npx -y @vscode/vsce@3 package --no-dependencies"
+  },
+  "sponsor": {
+    "url": "https://github.com/sponsors/theluckystrike/sponsorships?tier_id=679878"
+  }
+}
